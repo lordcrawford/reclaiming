@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/reclaiming/static/css/main.e951ab7b.css",
+    "main.js": "/reclaiming/static/js/main.1ffe5972.js",
+    "static/js/453.76922ac9.chunk.js": "/reclaiming/static/js/453.76922ac9.chunk.js",
+    "static/media/logo.svg": "/reclaiming/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/reclaiming/index.html",
+    "main.e951ab7b.css.map": "/reclaiming/static/css/main.e951ab7b.css.map",
+    "main.1ffe5972.js.map": "/reclaiming/static/js/main.1ffe5972.js.map",
+    "453.76922ac9.chunk.js.map": "/reclaiming/static/js/453.76922ac9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e951ab7b.css",
+    "static/js/main.1ffe5972.js"
+  ]
+}
