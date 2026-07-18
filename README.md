@@ -1,1 +1,1 @@
-https://lordcrawford.github.io/reclaiming/
+Shocked by the announcement of Assata Shakur's death on September 25, 2025, I began my research into her lineage, Cuba, and the concept of 'identification' or *name design*. In the past few decades, there's been a surge of Black and Indigenous activists and groups reclaiming native names and 'decolonizing' their given name. I wanted to document a small segment of my rabbit hole down forgotten activism and the act of reclaiming.
