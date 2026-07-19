@@ -2,7 +2,45 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  const [hoveredName, setHoveredName] = useState(null);
+  const [hoveredKey, setHoveredKey] = useState(null);
+  const [pinnedKey, setPinnedKey] = useState(null);
+  const supportsHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+
+  const activeKey = pinnedKey ?? hoveredKey;
+
+  const togglePin = (key) => setPinnedKey((prev) => (prev === key ? null : key));
+
+  const nameHandlers = (key) => supportsHover
+    ? {
+        onMouseEnter: () => setHoveredKey(key),
+        onMouseLeave: () => setHoveredKey(null),
+        onClick: () => togglePin(key),
+      }
+    : {
+        onClick: () => togglePin(key),
+      };
+
+  const nameClassName = (key, highlight) => {
+    const active = activeKey === key;
+    const activeClasses = highlight
+      ? 'text-red-600 underline font-bold'
+      : 'text-blue-600 line-through';
+    return `${key} cursor-pointer transition-colors ${active ? activeClasses : ''}`;
+  };
+
+  const names = [
+    { key: 'assata', label: 'Joanne Deborah Chesimard' },
+    { key: 'nehanda', label: 'Laverne Cheri Dalton' },
+    { key: 'ali', label: 'Cassius Marcellus Clay' },
+    { key: 'kwame', label: 'Stokely Carmichael' },
+    { key: 'malcolmx', label: 'Malcolm Little' },
+    { key: 'imani', label: 'Richard Bullock Henry' },
+    { key: 'denali', label: 'Mount McKinley' },
+    { key: 'first', label: 'Mount Doane' },
+    { key: 'uluru', label: 'Ayers Rock' },
+    { key: 'kgari', label: 'Fraser Island' },
+    { key: 'what', label: 'so... what is this?', highlight: true },
+  ];
 
   const descriptions = {
     assata: "<strong text-[18px]> ASSATA SHAKUR. </strong>Black Liberation Army activist and political prisoner who escaped from prison in 1979 and sought asylum in Cuba in 1984. She assumed the name Assata in 1971 to relinquish her 'slave name'.",
@@ -20,94 +58,36 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header min-h-screen flex items-center gap-20">
+      <header className="App-header min-h-screen flex flex-col md:flex-row items-center gap-6 md:gap-20">
         <h1>freedpeople</h1>
-        <div className="flex w-full gap-20">
-          <div className="names w-1/3 text-[18px] space-y-8">
-            <p 
-              className="assata cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('assata')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Joanne Deborah Chesimard
-            </p>
-            <p 
-              className="nehanda cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('nehanda')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Laverne Cheri Dalton
-            </p>
-            <p 
-              className='ali cursor-pointer hover:text-blue-600 hover:line-through transition-colors'
-              onMouseEnter={() => setHoveredName('ali')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Cassius Marcellus Clay
-            </p>
-            <p 
-              className="kwame cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('kwame')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Stokely Carmichael
-            </p>
-            <p 
-              className="malcolmx cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('malcolmx')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Malcolm Little
-            </p>
-            <p 
-              className="imani cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('imani')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Richard Bullock Henry
-            </p>
-            <p 
-              className="denali cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('denali')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Mount McKinley 
-            </p>
-            <p 
-              className="first cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('first')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Mount Doane 
-            </p>
-            <p 
-              className="uluru cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('uluru')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Ayers Rock
-            </p>
-            <p 
-              className="kgari cursor-pointer hover:text-blue-600 hover:line-through transition-colors"
-              onMouseEnter={() => setHoveredName('kgari')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              Fraser Island
-            </p>
-            <p 
-              className="assata cursor-pointer hover:text-red-600 hover:underline hover:font-bold transition-colors"
-              onMouseEnter={() => setHoveredName('what')}
-              onMouseLeave={() => setHoveredName(null)}
-            >
-              so... what is this?
-            </p>
+
+        <div className="flex flex-col md:flex-row w-full gap-6 md:gap-20">
+          <div className="names w-full md:w-1/3 text-[18px] space-y-8">
+            {names.map(({ key, label, highlight }) => (
+              <div key={key}>
+                <p
+                  className={nameClassName(key, highlight)}
+                  {...nameHandlers(key)}
+                >
+                  {label}
+                </p>
+                {activeKey === key && (
+                  <div className="md:hidden mt-4 p-6 bg-orange-100 rounded-lg text-[16px] text-left">
+                    <p
+                      className="text-gray-700"
+                      dangerouslySetInnerHTML={{ __html: descriptions[key] }}
+                    ></p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-          <div className="description w-2/3 text-[20px] flex items-center">
-            {hoveredName ? (
+          <div className="description hidden md:flex w-2/3 text-[20px] items-center">
+            {activeKey ? (
               <div className="p-6 bg-orange-100 rounded-lg">
-                <p 
-                  className="text-gray-700" 
-                  dangerouslySetInnerHTML={{ __html: descriptions[hoveredName] }}
+                <p
+                  className="text-gray-700"
+                  dangerouslySetInnerHTML={{ __html: descriptions[activeKey] }}
                 ></p>
               </div>
             ) : (
